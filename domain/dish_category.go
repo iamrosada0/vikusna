@@ -5,7 +5,7 @@ import "github.com/google/uuid"
 // Categoria de Prato representa uma categoria na qual os pratos podem ser agrupados
 type DishCategory struct {
 	ID   string `json:"dish_category_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	Name string
+	Name string `json:"name"`
 }
 
 func NewDishCategory(name string) (*DishCategory, error) {

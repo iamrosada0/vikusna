@@ -7,9 +7,9 @@ import (
 // Item do Pedido representa um item específico dentro de um pedido
 type OrderItem struct {
 	ID       string `json:"order_item_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	OrderID  string
-	DishID   string
-	Quantity int
+	OrderID  string `json:"order_id"`
+	DishID   string `json:"dish_id"`
+	Quantity int    `json:"quantity"`
 }
 
 func NewOrderItem(orderID, dishID string, quantity int) (*OrderItem, error) {

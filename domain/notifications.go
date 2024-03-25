@@ -9,9 +9,9 @@ import (
 // Notificação representa uma notificação enviada a um usuário
 type Notification struct {
 	ID        string `json:"notification_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	UserID    string
-	Message   string
-	Timestamp int64
+	UserID    string `json:"user_id"`
+	Message   string `json:"message"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 func NewNotification(userID, message string) (*Notification, error) {

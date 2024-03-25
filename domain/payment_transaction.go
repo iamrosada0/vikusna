@@ -4,10 +4,10 @@ import "github.com/google/uuid"
 
 // Transação de Pagamento representa uma transação de pagamento entre um cliente e um chef
 type PaymentTransaction struct {
-	ID            string `json:"payment_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	OrderID       string
-	Amount        float64
-	PaymentMethod string
+	ID            string  `json:"payment_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	OrderID       string  `json:"order_id"`
+	Amount        float64 `json:"amount"`
+	PaymentMethod string  `json:"payment_method"`
 }
 
 func NewPaymentTransaction(orderID, paymentMethod string, amount float64) (*PaymentTransaction, error) {
