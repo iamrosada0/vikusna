@@ -1,1 +1,9 @@
-# diamante
+:rocket: → :rocket: (🚀)
+:sparkles: → :sparkles: (✨)
+:bug: → :bug: (🐛)
+:memo: → :memo: (📝)
+:art: → :art: (🎨)
+:tada: → :tada: (🎉)
+:construction: → :construction: (🚧)
+:fire: → :fire: (🔥)
+:books: → :books: (📚)
