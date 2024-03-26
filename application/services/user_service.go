@@ -15,8 +15,9 @@ func NewUserService(userRepository repositories.UserRepository) *UserService {
 	}
 }
 
-func (s *UserService) CreateUser(userName, email string) (*domain.User, error) {
-	return s.UserRepository.Insert(userName, email)
+func (s *UserService) CreateUser(user_name, email, password, phone, first_name, last_name, user_type, profile_image string) (*domain.User, error) {
+
+	return s.UserRepository.Insert(user_name, email, password, phone, first_name, last_name, user_type, profile_image)
 }
 
 func (s *UserService) GetUserByID(userID string) (*domain.User, error) {

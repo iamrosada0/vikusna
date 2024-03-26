@@ -131,7 +131,7 @@ checklist para o desenvolvimento do backend da aplicação EvaEats:
 
 ## BACKEND LOGICS 
 
-Entendi, você quer adicionar funcionalidades adicionais relacionadas aos pedidos de pratos pelos usuários. Vamos expandir o checklist do backend para incluir essas possibilidades:
+
 
 1. **Endpoints Adicionais da API:**
    - [ ] Implementação de endpoints para que os usuários possam visualizar o cardápio dos chefs.
