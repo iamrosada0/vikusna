@@ -1,3 +1,5 @@
+## EvaEats
+
 `:rocket: → :rocket: (🚀)
 :sparkles: → :sparkles: (✨)
 :bug: → :bug: (🐛)
@@ -38,34 +40,39 @@ o fluxo geral da aplicação para chefs de pequenos negócios de comida:
 
  checklist para o fluxo completo da aplicação para chefs de pequenos negócios de comida:
 
+Entendido. Vamos atualizar o checklist para refletir essa distinção:
+
 1. **Cadastro e Configuração da Conta:**
-   - [ ] Página de cadastro para novos chefs.
-   - [ ] Formulário de cadastro com campos para nome, endereço, informações de contato e detalhes sobre o negócio de comida.
-   - [ ] Opções para configurar preferências da conta, como horários de funcionamento, áreas de entrega e métodos de pagamento aceitos.
+   - [ ] Página de cadastro para novos chefs no site.
+   - [ ] Formulário de cadastro para chefs com campos para nome, endereço, informações de contato e detalhes sobre o negócio de comida.
+   - [ ] Opções para os chefs configurarem preferências da conta, como horários de funcionamento, áreas de entrega e métodos de pagamento aceitos.
+   - [ ] Interface de cadastro para usuários no aplicativo móvel.
 
 2. **Gerenciamento de Cardápio:**
-   - [ ] Painel administrativo para os chefs gerenciarem seu cardápio.
-   - [ ] Opções para adicionar novos pratos, editar informações existentes e definir preços e disponibilidade.
+   - [ ] Painel administrativo no site para os chefs gerenciarem seu cardápio.
+   - [ ] Funcionalidade para os chefs adicionarem, editarem e removerem pratos do cardápio pelo site.
+   - [ ] Interface no aplicativo móvel para os usuários visualizarem o cardápio dos chefs.
 
 3. **Recebimento de Pedidos Online:**
-   - [ ] Interface de usuário para os clientes visualizarem o cardápio dos chefs.
-   - [ ] Funcionalidade para os clientes fazerem pedidos diretamente pelo aplicativo ou site da plataforma.
-   - [ ] Notificações em tempo real para os chefs sobre novos pedidos recebidos.
+   - [ ] Funcionalidade no site para os clientes visualizarem o cardápio e fazerem pedidos.
+   - [ ] Capacidade para os chefs receberem pedidos diretamente no painel administrativo do site.
+   - [ ] Interface no aplicativo móvel para os usuários fazerem pedidos.
 
 4. **Preparação e Confirmação do Pedido:**
-   - [ ] Funcionalidade para os chefs visualizarem os detalhes do pedido, como os pratos solicitados, endereço de entrega e informações do cliente.
-   - [ ] Opções para os chefs confirmarem a preparação dos pedidos na plataforma, mantendo os clientes atualizados sobre o status da preparação.
+   - [ ] Painel administrativo no site para os chefs visualizarem e confirmarem pedidos.
+   - [ ] Opções para os chefs confirmarem a preparação dos pedidos no painel administrativo do site.
+   - [ ] Notificações em tempo real para os chefs sobre novos pedidos recebidos no site.
 
 5. **Entrega dos Pedidos:**
-   - [ ] Ferramentas para os chefs planejarem e executarem as entregas dos pedidos.
-   - [ ] Funcionalidade para os chefs marcarem os pedidos como entregues na plataforma, confirmando a conclusão da entrega.
+   - [ ] Ferramentas para os chefs planejarem e executarem as entregas dos pedidos, acessíveis pelo site.
+   - [ ] Funcionalidade para os chefs marcarem os pedidos como entregues no painel administrativo do site.
 
 6. **Avaliações e Feedback:**
-   - [ ] Opção para os clientes avaliarem os pratos e a experiência de compra.
-   - [ ] Funcionalidade para os chefs visualizarem e responderem às avaliações dos clientes, utilizando feedback para melhorar os serviços.
+   - [ ] Opção para os clientes avaliarem os pratos e a experiência de compra no aplicativo móvel.
+   - [ ] Funcionalidade para os chefs visualizarem e responderem às avaliações dos clientes no site.
 
 7. **Gerenciamento da Conta:**
-   - [ ] Acesso ao painel administrativo da conta para os chefs gerenciarem suas informações, cardápio e pedidos.
-   - [ ] Ferramentas para os chefs acessarem relatórios de vendas, histórico de pedidos e estatísticas de desempenho.
+   - [ ] Acesso ao painel administrativo da conta para os chefs gerenciarem suas informações, cardápio e pedidos, disponível no site.
+   - [ ] Interface no aplicativo móvel para os usuários acessarem seu perfil, histórico de pedidos e preferências.
 
-Esse checklist cobre os principais aspectos do fluxo da aplicação para chefs de pequenos negócios de comida e pode ser usado como um guia para desenvolvimento e implementação.
+Esse checklist aborda as necessidades específicas dos chefs e dos usuários, garantindo que ambas as partes tenham uma experiência fluida e eficiente ao utilizar o EvaEats.
