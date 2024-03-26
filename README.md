@@ -76,3 +76,87 @@ Entendido. Vamos atualizar o checklist para refletir essa distinção:
    - [ ] Interface no aplicativo móvel para os usuários acessarem seu perfil, histórico de pedidos e preferências.
 
 Esse checklist aborda as necessidades específicas dos chefs e dos usuários, garantindo que ambas as partes tenham uma experiência fluida e eficiente ao utilizar o EvaEats.
+
+## BACKEND WITH GOLANG
+
+checklist para o desenvolvimento do backend da aplicação EvaEats:
+
+1. **Configuração e Infraestrutura:**
+   - [ ] Configuração do ambiente de desenvolvimento com as ferramentas necessárias (por exemplo, Go, GORM, PostgreSQL).
+   - [ ] Configuração do banco de dados PostgreSQL.
+   - [ ] Criação do projeto Go e estrutura de pastas.
+   - [ ] Configuração do roteamento HTTP com um framework como Gin ou Chi.
+
+2. **Modelagem de Dados:**
+   - [ ] Definição dos modelos de dados necessários, incluindo User, Chef, Dish, Order, etc.
+   - [ ] Mapeamento dos modelos para as tabelas do banco de dados utilizando GORM.
+   - [ ] Implementação de validações nos modelos, como restrições de campos obrigatórios e tipos de dados.
+
+3. **Endpoints da API:**
+   - [ ] Implementação dos endpoints da API para as operações CRUD em cada modelo (por exemplo, criar, ler, atualizar, excluir).
+   - [ ] Endpoints para autenticação e autorização de usuários e chefs.
+   - [ ] Implementação de rotas protegidas que exigem autenticação para acesso.
+
+4. **Autenticação e Autorização:**
+   - [ ] Implementação de autenticação de usuários utilizando JWT (JSON Web Tokens).
+   - [ ] Configuração de middleware para verificar a validade dos tokens JWT em rotas protegidas.
+   - [ ] Implementação de lógica de autorização para garantir que os usuários só possam acessar recursos que lhes pertençam.
+
+5. **Integração com o Banco de Dados:**
+   - [ ] Configuração da conexão com o banco de dados PostgreSQL.
+   - [ ] Implementação de funções para executar operações CRUD nos modelos utilizando GORM.
+   - [ ] Criação de seeds para popular o banco de dados com dados iniciais (opcional, dependendo das necessidades de teste).
+
+6. **Testes Unitários e de Integração:**
+   - [ ] Implementação de testes unitários para as funções de manipulação de dados.
+   - [ ] Implementação de testes de integração para os endpoints da API, incluindo casos de teste para diferentes cenários.
+
+7. **Documentação da API:**
+   - [ ] Documentação dos endpoints da API utilizando ferramentas como Swagger ou Postman.
+   - [ ] Inclusão de exemplos de solicitação e resposta para cada endpoint, incluindo parâmetros de entrada e saída esperados.
+
+8. **Configuração do Ambiente de Produção:**
+   - [ ] Configuração de variáveis de ambiente para o ambiente de produção.
+   - [ ] Configuração de servidores web como Nginx para lidar com o roteamento e a segurança.
+   - [ ] Configuração de HTTPS e certificados SSL para comunicação segura.
+
+9. **Monitoramento e Logging:**
+   - [ ] Implementação de logging para registrar informações importantes sobre as solicitações recebidas e as operações realizadas.
+   - [ ] Configuração de ferramentas de monitoramento para acompanhar o desempenho da aplicação e identificar possíveis problemas.
+
+10. **Deploy e Implantação:**
+    - [ ] Preparação da aplicação para implantação em um ambiente de produção.
+    - [ ] Deploy da aplicação em um servidor de produção utilizando uma plataforma de hospedagem como Heroku ou AWS.
+
+
+## BACKEND LOGICS 
+
+Entendi, você quer adicionar funcionalidades adicionais relacionadas aos pedidos de pratos pelos usuários. Vamos expandir o checklist do backend para incluir essas possibilidades:
+
+1. **Endpoints Adicionais da API:**
+   - [ ] Implementação de endpoints para que os usuários possam visualizar o cardápio dos chefs.
+   - [ ] Implementação de endpoints para que os usuários possam fazer pedidos de pratos específicos.
+   - [ ] Implementação de endpoints para que os chefs possam receber e gerenciar pedidos feitos pelos usuários.
+
+2. **Gerenciamento de Pedidos:**
+   - [ ] Implementação de lógica para adicionar pedidos à lista de pedidos de um chef quando um usuário faz um pedido.
+   - [ ] Implementação de funcionalidades para que os chefs possam visualizar os pedidos recebidos e seu status.
+   - [ ] Implementação de funcionalidades para que os chefs possam atualizar o status dos pedidos (por exemplo, confirmado, em preparo, entregue).
+
+3. **Notificações em Tempo Real:**
+   - [ ] Configuração de notificações em tempo real para os chefs quando um novo pedido é feito por um usuário.
+   - [ ] Implementação de notificações para os usuários sobre o status do pedido (por exemplo, pedido confirmado, em preparo, entregue).
+
+4. **Pagamento e Checkout:**
+   - [ ] Implementação de funcionalidades para que os usuários possam pagar pelos pedidos através do aplicativo.
+   - [ ] Integração com serviços de pagamento para processar transações de pagamento de forma segura.
+   - [ ] Implementação de funcionalidades para que os chefs possam confirmar o pagamento e iniciar a preparação do pedido após a confirmação do pagamento.
+
+5. **Histórico de Pedidos:**
+   - [ ] Implementação de funcionalidades para que os usuários possam visualizar seu histórico de pedidos anteriores.
+   - [ ] Implementação de funcionalidades para que os chefs possam acessar o histórico de pedidos recebidos e completados.
+
+6. **Avaliações e Feedback:**
+   - [ ] Implementação de funcionalidades para que os usuários possam avaliar os pratos e deixar feedback sobre a experiência.
+   - [ ] Implementação de funcionalidades para que os chefs possam visualizar e responder às avaliações dos usuários.
+
