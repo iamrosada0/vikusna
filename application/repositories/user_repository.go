@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -17,6 +18,9 @@ type UserRepository interface {
 	Find(id string) (*domain.User, error)
 	FindByEmail(email string) (*domain.User, error)
 	FindByPhone(phone string) (*domain.User, error)
+	Login(email, password string) (*domain.User, error)
+	Logout(userID string) error
+	Update(id, user_name, email, password, phone, first_name, last_name, user_type, profile_image string) (*domain.User, error)
 }
 
 type UserRepositoryDb struct {
@@ -96,5 +100,49 @@ func (repo UserRepositoryDb) FindByPhone(phone string) (*domain.User, error) {
 		}
 		return nil, err
 	}
+	return &user, nil
+}
+
+func (repo UserRepositoryDb) Login(email, password string) (*domain.User, error) {
+	var user domain.User
+	if err := repo.Db.Where("email = ?", email).First(&user).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, fmt.Errorf("User with email %s not found", email)
+		}
+		return nil, err
+	}
+
+	// Compare the hashed password
+	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)); err != nil {
+		return nil, fmt.Errorf("incorrect password")
+	}
+
+	return &user, nil
+}
+
+func (repo UserRepositoryDb) Update(id, user_name, email, password, phone, first_name, last_name, user_type, profile_image string) (*domain.User, error) {
+	var user domain.User
+	if err := repo.Db.First(&user, "id = ?", id).Error; err != nil {
+		if err == gorm.ErrRecordNotFound {
+			return nil, fmt.Errorf("User with ID %s not found", id)
+		}
+		return nil, err
+	}
+
+	// Update user fields
+	user.User_name = user_name
+	user.Email = email
+	user.Password = helper.HashPassword(password)
+	user.Phone = phone
+	user.First_name = first_name
+	user.Last_name = last_name
+	user.User_type = user_type
+	user.ProfileImage = profile_image
+
+	// Update user in the database
+	if err := repo.Db.Save(&user).Error; err != nil {
+		return nil, err
+	}
+
 	return &user, nil
 }
