@@ -95,12 +95,12 @@ func EnvCloudUserFolder() string {
 	return os.Getenv("CLOUDINARY_USERS_FOLDER")
 }
 
-func EnvCloudChefEvaEatsFolder() string {
+func EnvCloudHomeChefEatsFolder() string {
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	return os.Getenv("CLOUDINARY_ChefEvaEats_FOLDER")
+	return os.Getenv("CLOUDINARY_HomeChefEats_FOLDER")
 }
 
 func EnvCloudMenuFolder() string {

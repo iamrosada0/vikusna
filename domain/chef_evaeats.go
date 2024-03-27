@@ -1,10 +1,10 @@
 package domain
 
-// ChefEvaEats is like a restaurant
-type ChefEvaEats struct {
-	ID                  string  `json:"chef_evaeats_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	ChefEvaEats_image   string  `json:"chef_evaeats_image"`
-	ChefEvaEats_name    string  `json:"chef_evaeats_name"`
+// HomeChefEats is like a restaurant
+type HomeChefEats struct {
+	ID                  string  `json:"homeChefEats_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	HomeChefEats_image  string  `json:"homeChefEats_image"`
+	HomeChefEats_name   string  `json:"homeChefEats_name"`
 	Phone_number        string  `json:"phone_number"`
 	Address             string  `json:"address"`
 	LocationID          string  `json:"location"`

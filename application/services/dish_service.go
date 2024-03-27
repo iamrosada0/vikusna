@@ -15,11 +15,11 @@ func NewDishService(dishRepo repositories.DishRepository) *DishService {
 	}
 }
 
-func (s *DishService) CreateDish(chefID, name, description string, price float64, available bool) (*domain.Dish, error) {
+func (s *DishService) CreateDish(chefID, name, description, dish_image string, price float64, available bool) (*domain.Dish, error) {
 	// Validate input data, if necessary
 
 	// Create the dish in the database
-	newDish, err := s.DishRepository.Insert(chefID, name, description, price, available)
+	newDish, err := s.DishRepository.Insert(chefID, name, description, dish_image, price, available)
 	if err != nil {
 		return nil, err
 	}

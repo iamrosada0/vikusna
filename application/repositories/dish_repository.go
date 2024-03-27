@@ -8,7 +8,7 @@ import (
 )
 
 type DishRepository interface {
-	Insert(chef_id, name, description string, price float64, availble bool) (*domain.Dish, error)
+	Insert(chef_id, name, description, dish_image string, price float64, availble bool) (*domain.Dish, error)
 	Find(id string) (*domain.Dish, error)
 }
 
@@ -16,9 +16,9 @@ type DishRepositoryDb struct {
 	Db *gorm.DB
 }
 
-func (repo DishRepositoryDb) Insert(chef_id, name, description string, price float64, availble bool) (*domain.Dish, error) {
+func (repo DishRepositoryDb) Insert(chef_id, name, description, dish_image string, price float64, availble bool) (*domain.Dish, error) {
 	// Generate a new Dish with a generated ID
-	newDish, err := domain.NewDish(chef_id, name, description, price, availble)
+	newDish, err := domain.NewDish(chef_id, name, description, dish_image, price, availble)
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"evaeats/application/repositories"
 	"evaeats/domain"
 )
@@ -16,9 +17,25 @@ func NewOrderService(orderRepo repositories.OrderRepository) *OrderService {
 }
 
 func (s *OrderService) CreateOrder(customerID, chefID, status, address string, items []domain.OrderItem) (*domain.Order, error) {
-	// Validar os dados de entrada, se necessário
+	// Validate input data
+	if customerID == "" {
+		return nil, errors.New("customerID cannot be empty")
+	}
+	if chefID == "" {
+		return nil, errors.New("chefID cannot be empty")
+	}
+	if status != "PENDING" && status != "ACCEPTED" && status != "REJECTED" {
+		return nil, errors.New("invalid status")
+	}
+	if address == "" {
+		return nil, errors.New("address cannot be empty")
+	}
+	if len(items) == 0 {
+		return nil, errors.New("order must contain at least one item")
+	}
+	// Additional validation logic can be added as needed
 
-	// Criar o pedido no banco de dados
+	// Create the order in the database
 	newOrder, err := s.OrderRepository.Insert(customerID, chefID, status, address, items)
 	if err != nil {
 		return nil, err
