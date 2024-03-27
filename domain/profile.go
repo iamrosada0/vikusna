@@ -1,6 +1,7 @@
 package domain
 
 type Profile struct {
+	ID            string        `json:"profile_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	UserID        string        `json:"user_id"`
 	First_name    string        `json:"first_name"`
 	Last_name     string        `json:"last_name"`
