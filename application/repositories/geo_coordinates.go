@@ -8,7 +8,7 @@ import (
 )
 
 type GeoCoordinatesRepository interface {
-	Insert(latitude, longitude float64) (*domain.GeoCoordinates, error)
+	Insert(name string, latitude, longitude float64) (*domain.GeoCoordinates, error)
 	Find(id string) (*domain.GeoCoordinates, error)
 }
 
@@ -16,9 +16,9 @@ type GeoCoordinatesRepositoryDb struct {
 	Db *gorm.DB
 }
 
-func (repo GeoCoordinatesRepositoryDb) Insert(latitude, longitude float64) (*domain.GeoCoordinates, error) {
+func (repo GeoCoordinatesRepositoryDb) Insert(name string, latitude, longitude float64) (*domain.GeoCoordinates, error) {
 	// Generate a new GeoCoordinates with a generated ID
-	newGeoCoordinates, err := domain.NewGeoCoordinates(latitude, longitude)
+	newGeoCoordinates, err := domain.NewGeoCoordinates(name, latitude, longitude)
 	if err != nil {
 		return nil, err
 	}

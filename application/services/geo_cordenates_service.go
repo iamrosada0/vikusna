@@ -15,11 +15,11 @@ func NewGeoCoordinatesService(geoCoordinatesRepo repositories.GeoCoordinatesRepo
 	}
 }
 
-func (s *GeoCoordinatesService) CreateGeoCoordinates(latitude, longitude float64) (*domain.GeoCoordinates, error) {
+func (s *GeoCoordinatesService) CreateGeoCoordinates(name string, latitude, longitude float64) (*domain.GeoCoordinates, error) {
 	// Validate input data, if necessary
 
 	// Create the geo coordinates in the database
-	newGeoCoordinates, err := s.GeoCoordinatesRepository.Insert(latitude, longitude)
+	newGeoCoordinates, err := s.GeoCoordinatesRepository.Insert(name, latitude, longitude)
 	if err != nil {
 		return nil, err
 	}
