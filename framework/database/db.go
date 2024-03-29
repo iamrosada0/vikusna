@@ -67,6 +67,7 @@ func (d *Database) Connect() (*gorm.DB, error) {
 	if d.AutoMigrateDb {
 		d.Db.AutoMigrate(
 			&domain.User{},
+			&domain.Profile{},
 			&domain.PaymentTransaction{},
 			&domain.Dish{},
 			&domain.DishCategory{},
