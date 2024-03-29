@@ -3,13 +3,17 @@ package usecase
 import "evaeats/user-service/internal/cheff/entity"
 
 type GetCheffByIDInputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type GetCheffByIDOutputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID                 string `json:"id"`
+	Name               string `json:"name"`
+	CheffImage         string `json:"cheff_image"`
+	PhoneNumber        string `json:"phone_number"`
+	Address            string `json:"address"`
+	LocationID         string `json:"location"`
+	RegistrationStatus string `json:"registration_status"`
 }
 
 type GetCheffByIDUseCase struct {
@@ -27,8 +31,12 @@ func (u *GetCheffByIDUseCase) Execute(input GetCheffByIDInputDto) (*GetCheffByID
 	}
 
 	return &GetCheffByIDOutputDto{
-		ID:    Cheff.ID,
-		Name:  Cheff.Name,
-		Email: Cheff.Email,
+		ID:                 Cheff.ID,
+		Name:               Cheff.Cheff_name,
+		CheffImage:         Cheff.Cheff_image,
+		PhoneNumber:        Cheff.Phone_number,
+		Address:            Cheff.Address,
+		LocationID:         Cheff.LocationID,
+		RegistrationStatus: Cheff.Registration_status,
 	}, nil
 }
