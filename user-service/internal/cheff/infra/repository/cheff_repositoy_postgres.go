@@ -31,11 +31,11 @@ func (r *CheffRepositoryPostgres) Update(Cheff *entity.Cheff) error {
 	return r.DB.Save(Cheff).Error
 }
 
-func (r *CheffRepositoryPostgres) DeleteByID(id uint) error {
+func (r *CheffRepositoryPostgres) DeleteByID(id string) error {
 	return r.DB.Where("id = ?", id).Delete(entity.Cheff{}).Error
 }
 
-func (r *CheffRepositoryPostgres) GetByID(id uint) (*entity.Cheff, error) {
+func (r *CheffRepositoryPostgres) GetByID(id string) (*entity.Cheff, error) {
 	var cheff entity.Cheff
 	if err := r.DB.Where("id = ?", id).First(&cheff).Error; err != nil {
 		return nil, err

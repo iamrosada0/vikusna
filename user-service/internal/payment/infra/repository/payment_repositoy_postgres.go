@@ -3,7 +3,6 @@ package repository
 import (
 	"evaeats/user-service/internal/payment/entity"
 
-	_ "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
