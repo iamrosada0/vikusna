@@ -3,7 +3,7 @@ package usecase
 import "evaeats/user-service/internal/cheff/entity"
 
 type GetAllCheffsOutputDto struct {
-	Cheffs []*entity.Cheff `json:"Cheffs"`
+	Cheffs []*entity.Cheff `json:"cheffs"`
 }
 
 type GetAllCheffsUseCase struct {
