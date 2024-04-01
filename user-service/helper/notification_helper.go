@@ -2,8 +2,8 @@ package helper
 
 import (
 	"bytes"
-	"evaeats/config"
 	"evaeats/domain"
+	"evaeats/user-service/config"
 
 	"crypto/tls"
 	"html/template"

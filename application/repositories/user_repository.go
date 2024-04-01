@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"evaeats/domain"
-	"evaeats/helper"
+	"evaeats/user-service/helper"
 	"fmt"
 	"strings"
 

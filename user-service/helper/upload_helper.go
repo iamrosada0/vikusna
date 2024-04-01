@@ -1,7 +1,7 @@
 package helper
 
 import (
-	"evaeats/config"
+	"evaeats/user-service/config"
 	"mime/multipart"
 	"net/http"
 
