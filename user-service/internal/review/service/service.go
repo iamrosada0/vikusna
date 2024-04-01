@@ -1,7 +1,7 @@
 package services
 
 import (
-	"evaeats/domain"
+	"evaeats/user-service/internal/review/entity"
 	"evaeats/user-service/internal/review/repository"
 )
 
@@ -15,7 +15,7 @@ func NewReviewService(reviewRepo repository.ReviewRepository) *ReviewService {
 	}
 }
 
-func (s *ReviewService) CreateReview(userID, orderID, dishID, comment string, rating int) (*domain.Review, error) {
+func (s *ReviewService) CreateReview(userID, orderID, dishID, comment string, rating int) (*entity.Review, error) {
 	// Validate input data, if necessary
 
 	// Create the review in the database
@@ -27,7 +27,7 @@ func (s *ReviewService) CreateReview(userID, orderID, dishID, comment string, ra
 	return newReview, nil
 }
 
-func (s *ReviewService) GetReviewByID(id string) (*domain.Review, error) {
+func (s *ReviewService) GetReviewByID(id string) (*entity.Review, error) {
 	// Fetch the review by ID from the database
 	review, err := s.ReviewRepository.Find(id)
 	if err != nil {

@@ -1,7 +1,7 @@
 package services
 
 import (
-	"evaeats/domain"
+	"evaeats/user-service/internal/geocoordinates/entity"
 	"evaeats/user-service/internal/geocoordinates/repository"
 )
 
@@ -15,7 +15,7 @@ func NewGeoCoordinatesService(geoCoordinatesRepo repository.GeoCoordinatesReposi
 	}
 }
 
-func (s *GeoCoordinatesService) CreateGeoCoordinates(name string, latitude, longitude float64) (*domain.GeoCoordinates, error) {
+func (s *GeoCoordinatesService) CreateGeoCoordinates(name string, latitude, longitude float64) (*entity.GeoCoordinates, error) {
 	// Validate input data, if necessary
 
 	// Create the geo coordinates in the database
@@ -27,7 +27,7 @@ func (s *GeoCoordinatesService) CreateGeoCoordinates(name string, latitude, long
 	return newGeoCoordinates, nil
 }
 
-func (s *GeoCoordinatesService) GetGeoCoordinatesByID(id string) (*domain.GeoCoordinates, error) {
+func (s *GeoCoordinatesService) GetGeoCoordinatesByID(id string) (*entity.GeoCoordinates, error) {
 	// Fetch the geo coordinates by ID from the database
 	geoCoordinates, err := s.GeoCoordinatesRepository.Find(id)
 	if err != nil {
