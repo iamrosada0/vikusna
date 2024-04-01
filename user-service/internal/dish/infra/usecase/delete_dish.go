@@ -3,11 +3,11 @@ package usecase
 import "evaeats/user-service/internal/dish/entity"
 
 type DeleteDishInputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type DeleteDishOutputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type DeleteDishUseCase struct {
