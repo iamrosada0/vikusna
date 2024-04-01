@@ -3,13 +3,19 @@ package usecase
 import "evaeats/user-service/internal/order/entity"
 
 type GetOrderByIDInputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type GetOrderByIDOutputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID string `json:"order_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+
+	CustomerID      string             `json:"customer_id"`
+	ChefID          string             `json:"chef_id"`
+	Items           []entity.OrderItem `json:"items"`
+	Status          string             `json:"status"`
+	OrderDate       string             `json:"order_date"`
+	DriverID        string             `json:"driver_id" valid:"uuid" gorm:"type:uuid"`
+	DeliveryAddress string             `json:"delivery_address"`
 }
 
 type GetOrderByIDUseCase struct {
@@ -21,14 +27,19 @@ func NewGetOrderByIDUseCase(OrderRepository entity.OrderRepository) *GetOrderByI
 }
 
 func (u *GetOrderByIDUseCase) Execute(input GetOrderByIDInputDto) (*GetOrderByIDOutputDto, error) {
-	Order, err := u.OrderRepository.GetByID(input.ID)
+	order, err := u.OrderRepository.GetByID(input.ID)
 	if err != nil {
 		return nil, err
 	}
 
 	return &GetOrderByIDOutputDto{
-		ID:    Order.ID,
-		Name:  Order.Name,
-		Email: Order.Email,
+		ID:              order.ID,
+		CustomerID:      order.CustomerID,
+		ChefID:          order.ChefID,
+		Items:           order.Items,
+		Status:          order.Status,
+		OrderDate:       order.OrderDate,
+		DriverID:        order.DriverID,
+		DeliveryAddress: order.DeliveryAddress,
 	}, nil
 }

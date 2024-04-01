@@ -3,11 +3,11 @@ package usecase
 import "evaeats/user-service/internal/order/entity"
 
 type DeleteOrderInputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type DeleteOrderOutputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type DeleteOrderUseCase struct {

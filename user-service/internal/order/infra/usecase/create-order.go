@@ -3,38 +3,59 @@ package usecase
 import "evaeats/user-service/internal/order/entity"
 
 type CreateOrderInputDto struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	CustomerID      string             `json:"customer_id"`
+	ChefID          string             `json:"chef_id"`
+	Items           []entity.OrderItem `json:"items"`
+	Status          string             `json:"status"`
+	OrderDate       string             `json:"order_date"`
+	DriverID        string             `json:"driver_id" valid:"uuid" gorm:"type:uuid"`
+	DeliveryAddress string             `json:"delivery_address"`
 }
 
 type CreateOrderOutputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID              string             `json:"order_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	CustomerID      string             `json:"customer_id"`
+	ChefID          string             `json:"chef_id"`
+	Items           []entity.OrderItem `json:"items"`
+	Status          string             `json:"status"`
+	OrderDate       string             `json:"order_date"`
+	DriverID        string             `json:"driver_id" valid:"uuid" gorm:"type:uuid"`
+	DeliveryAddress string             `json:"delivery_address"`
 }
 
 type CreateOrderUseCase struct {
 	OrderRepository entity.OrderRepository
 }
 
-func NewCreateOrderUseCase(OrderRepository entity.OrderRepository) *CreateOrderUseCase {
-	return &CreateOrderUseCase{OrderRepository: OrderRepository}
+func NewCreateOrderUseCase(orderRepository entity.OrderRepository) *CreateOrderUseCase {
+	return &CreateOrderUseCase{OrderRepository: orderRepository}
 }
 
 func (u *CreateOrderUseCase) Execute(input CreateOrderInputDto) (*CreateOrderOutputDto, error) {
-	Order := entity.NewOrder(
-		input.Name,
-		input.Email,
+	newOrder := entity.NewOrder(
+		input.CustomerID,
+		input.ChefID,
+		input.Status,
+		input.DriverID,
+		input.DeliveryAddress,
+		input.Items,
 	)
 
-	err := u.OrderRepository.Create(Order)
+	err := u.OrderRepository.Create(newOrder)
 	if err != nil {
 		return nil, err
 	}
 
-	return &CreateOrderOutputDto{
-		ID:    Order.ID,
-		Name:  Order.Name,
-		Email: Order.Email,
-	}, nil
+	output := &CreateOrderOutputDto{
+		ID:              newOrder.ID,
+		CustomerID:      newOrder.CustomerID,
+		ChefID:          newOrder.ChefID,
+		Items:           newOrder.Items,
+		Status:          newOrder.Status,
+		OrderDate:       newOrder.OrderDate,
+		DriverID:        newOrder.DriverID,
+		DeliveryAddress: newOrder.DeliveryAddress,
+	}
+
+	return output, nil
 }
