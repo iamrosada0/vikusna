@@ -1,15 +1,15 @@
 package services
 
 import (
-	"evaeats/application/repositories"
 	"evaeats/domain"
+	"evaeats/user-service/internal/geocoordinates/repository"
 )
 
 type GeoCoordinatesService struct {
-	GeoCoordinatesRepository repositories.GeoCoordinatesRepository
+	GeoCoordinatesRepository repository.GeoCoordinatesRepository
 }
 
-func NewGeoCoordinatesService(geoCoordinatesRepo repositories.GeoCoordinatesRepository) *GeoCoordinatesService {
+func NewGeoCoordinatesService(geoCoordinatesRepo repository.GeoCoordinatesRepository) *GeoCoordinatesService {
 	return &GeoCoordinatesService{
 		GeoCoordinatesRepository: geoCoordinatesRepo,
 	}

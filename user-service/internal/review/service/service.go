@@ -1,15 +1,15 @@
 package services
 
 import (
-	"evaeats/application/repositories"
 	"evaeats/domain"
+	"evaeats/user-service/internal/review/repository"
 )
 
 type ReviewService struct {
-	ReviewRepository repositories.ReviewRepository
+	ReviewRepository repository.ReviewRepository
 }
 
-func NewReviewService(reviewRepo repositories.ReviewRepository) *ReviewService {
+func NewReviewService(reviewRepo repository.ReviewRepository) *ReviewService {
 	return &ReviewService{
 		ReviewRepository: reviewRepo,
 	}
