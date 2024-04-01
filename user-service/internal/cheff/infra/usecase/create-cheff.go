@@ -3,22 +3,31 @@ package usecase
 import "evaeats/user-service/internal/cheff/entity"
 
 type CreateCheffInputDto struct {
-	Name               string `json:"name"`
+	ID                 string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	CheffImage         string `json:"cheff_image"`
+	CheffName          string `json:"cheff_name"`
 	PhoneNumber        string `json:"phone_number"`
 	Address            string `json:"address"`
 	LocationID         string `json:"location"`
-	RegistrationStatus string `json:"registration_status"`
+	RegistrationStatus string `json:"registration_status" validate:"eq=PENDING|eq=ACCEPTED|eq=REJECTED"`
+	LocationPreference string `json:"location_preference"`
+	CookingExperience  string `json:"cooking_experience"`
+	Specialties        string `json:"specialties"`
+	Certifications     string `json:"certifications"`
 }
 
 type CreateCheffOutputDto struct {
-	ID                 string `json:"id"`
-	Name               string `json:"name"`
+	ID                 string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	CheffImage         string `json:"cheff_image"`
+	CheffName          string `json:"cheff_name"`
 	PhoneNumber        string `json:"phone_number"`
 	Address            string `json:"address"`
 	LocationID         string `json:"location"`
-	RegistrationStatus string `json:"registration_status"`
+	RegistrationStatus string `json:"registration_status" validate:"eq=PENDING|eq=ACCEPTED|eq=REJECTED"`
+	LocationPreference string `json:"location_preference"`
+	CookingExperience  string `json:"cooking_experience"`
+	Specialties        string `json:"specialties"`
+	Certifications     string `json:"certifications"`
 }
 
 type CreateCheffUseCase struct {
@@ -30,29 +39,37 @@ func NewCreateCheffUseCase(cheffRepository entity.CheffRepository) *CreateCheffU
 }
 
 func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOutputDto, error) {
-	// Criar um novo Cheff usando os dados de entrada
-	Cheff := entity.NewCheff(
+	// Create a new chef using the input data
+	cheff := entity.NewCheff(
 		input.CheffImage,
-		input.Name,
+		input.CheffName,
 		input.PhoneNumber,
 		input.Address,
 		input.LocationID,
+		input.LocationPreference,
+		input.CookingExperience,
+		input.Specialties,
+		input.Certifications,
 	)
 
-	// Adicionar o Cheff ao repositório
-	err := u.CheffRepository.Create(Cheff)
+	// Add the chef to the repository
+	err := u.CheffRepository.Create(cheff)
 	if err != nil {
 		return nil, err
 	}
 
-	// Retornar os dados do Cheff criado na saída
+	// Return the data of the created chef in the output
 	return &CreateCheffOutputDto{
-		ID:                 Cheff.ID,
-		Name:               Cheff.Cheff_name,
-		CheffImage:         Cheff.Cheff_image,
-		PhoneNumber:        Cheff.Phone_number,
-		Address:            Cheff.Address,
-		LocationID:         Cheff.LocationID,
-		RegistrationStatus: Cheff.Registration_status,
+		ID:                 cheff.ID,
+		CheffName:          cheff.Cheff_name,
+		CheffImage:         cheff.Cheff_image,
+		PhoneNumber:        cheff.Phone_number,
+		Address:            cheff.Address,
+		LocationID:         cheff.LocationID,
+		RegistrationStatus: cheff.Registration_status,
+		LocationPreference: cheff.LocationPreference,
+		CookingExperience:  cheff.CookingExperience,
+		Specialties:        cheff.Specialties,
+		Certifications:     cheff.Certifications,
 	}, nil
 }
