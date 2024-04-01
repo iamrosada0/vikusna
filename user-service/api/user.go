@@ -2,9 +2,7 @@ package api
 
 import (
 	"evaeats/user-service/internal/user/infra/usecase"
-	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -87,12 +85,8 @@ func (p *UserHandlers) DeleteUserHandler(c *gin.Context) {
 
 func (p *UserHandlers) GetUserByIDHandler(c *gin.Context) {
 	id := c.Param("id")
-	uInt32Val, err := strconv.ParseUint(id, 10, 32)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-	input := usecase.GetUserByIDInputDto{ID: uint(uInt32Val)}
+
+	input := usecase.GetUserByIDInputDto{ID: id}
 	output, err := p.GetUserByIDUseCase.Execute(input)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
