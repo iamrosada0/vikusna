@@ -3,13 +3,17 @@ package usecase
 import "evaeats/user-service/internal/dish/entity"
 
 type GetDishByIDInputDto struct {
-	ID uint `json:"id"`
+	ID string `json:"id"`
 }
 
 type GetDishByIDOutputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID          string  `json:"dish_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	ChefID      string  `json:"chef_id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Dish_image  string  `json:"dish_image"`
+	Price       float64 `json:"price"`
+	Available   bool    `json:"available"`
 }
 
 type GetDishByIDUseCase struct {
@@ -27,8 +31,12 @@ func (u *GetDishByIDUseCase) Execute(input GetDishByIDInputDto) (*GetDishByIDOut
 	}
 
 	return &GetDishByIDOutputDto{
-		ID:    Dish.ID,
-		Name:  Dish.Name,
-		Email: Dish.Email,
+		ID:          Dish.ID,
+		ChefID:      Dish.ChefID,
+		Name:        Dish.Name,
+		Description: Dish.Description,
+		Dish_image:  Dish.Dish_image,
+		Price:       Dish.Price,
+		Available:   Dish.Available,
 	}, nil
 }

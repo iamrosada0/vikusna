@@ -3,15 +3,23 @@ package usecase
 import "evaeats/user-service/internal/dish/entity"
 
 type UpdateDishInputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID          string  `json:"dish_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	ChefID      string  `json:"chef_id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Dish_image  string  `json:"dish_image"`
+	Price       float64 `json:"price"`
+	Available   bool    `json:"available"`
 }
 
 type UpdateDishOutputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID          string  `json:"dish_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	ChefID      string  `json:"chef_id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Dish_image  string  `json:"dish_image"`
+	Price       float64 `json:"price"`
+	Available   bool    `json:"available"`
 }
 
 type UpdateDishUseCase struct {
@@ -30,7 +38,10 @@ func (u *UpdateDishUseCase) Execute(input UpdateDishInputDto) (*UpdateDishOutput
 
 	existingDish.Update(
 		input.Name,
-		input.Email,
+		input.Description,
+		input.Dish_image,
+		input.Price,
+		input.Available,
 	)
 
 	err = u.DishRepository.Update(existingDish)
@@ -39,8 +50,12 @@ func (u *UpdateDishUseCase) Execute(input UpdateDishInputDto) (*UpdateDishOutput
 	}
 
 	return &UpdateDishOutputDto{
-		ID:    existingDish.ID,
-		Name:  existingDish.Name,
-		Email: existingDish.Email,
+		ID:          existingDish.ID,
+		ChefID:      existingDish.ChefID,
+		Name:        existingDish.Name,
+		Description: existingDish.Description,
+		Dish_image:  existingDish.Dish_image,
+		Price:       existingDish.Price,
+		Available:   existingDish.Available,
 	}, nil
 }
