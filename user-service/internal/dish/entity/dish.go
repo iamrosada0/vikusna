@@ -2,59 +2,75 @@ package entity
 
 import (
 	"errors"
-	"math/rand"
+
+	"github.com/google/uuid"
 )
 
 type DishRepository interface {
 	Create(Dish *Dish) error
 	FindAll() ([]*Dish, error)
 	Update(Dish *Dish) error
-	DeleteByID(id uint) error
-	GetByID(id uint) (*Dish, error)
+	DeleteByID(id string) error
+	GetByID(id string) (*Dish, error)
 }
 
 type Dish struct {
-	ID    uint
-	Name  string
-	Email string
+	ID          string  `json:"dish_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	ChefID      string  `json:"chef_id"`
+	Name        string  `json:"name"`
+	Description string  `json:"description"`
+	Dish_image  string  `json:"dish_image"`
+	Price       float64 `json:"price"`
+	Available   bool    `json:"available"`
 }
 
-func NewDish(name, email string) *Dish {
-	return &Dish{
-		ID:    uint(rand.Uint32()),
-		Name:  name,
-		Email: email,
+func NewDish(chefID, name, description, dish_image string, price float64, available bool) (*Dish, error) {
+	id, err := uuid.NewUUID()
+	if err != nil {
+		return nil, err
 	}
+	return &Dish{
+		ID:          id.String(),
+		ChefID:      chefID,
+		Name:        name,
+		Description: description,
+		Price:       price,
+		Dish_image:  dish_image,
+		Available:   available,
+	}, nil
 }
 
-func (d *Dish) Update(name, email string) {
+func (d *Dish) Update(name, description, dishImage string, price float64, available bool) {
 	d.Name = name
-	d.Email = email
+	d.Description = description
+	d.Dish_image = dishImage
+	d.Price = price
+	d.Available = available
 }
 
 type InMemoryDishRepository struct {
-	Dishs map[string]*Dish
+	Dishes map[string]*Dish
 }
 
 func NewInMemoryDishRepository() *InMemoryDishRepository {
 	return &InMemoryDishRepository{
-		Dishs: make(map[string]*Dish),
+		Dishes: make(map[string]*Dish),
 	}
 }
 
 func (r *InMemoryDishRepository) DeleteByID(id string) error {
-	if _, exists := r.Dishs[id]; !exists {
+	if _, exists := r.Dishes[id]; !exists {
 		return errors.New("Dish not found")
 	}
 
-	delete(r.Dishs, id)
+	delete(r.Dishes, id)
 	return nil
 }
 
 func (r *InMemoryDishRepository) FindAll() ([]*Dish, error) {
-	var allDishs []*Dish
-	for _, Dish := range r.Dishs {
-		allDishs = append(allDishs, Dish)
+	var allDishes []*Dish
+	for _, dish := range r.Dishes {
+		allDishes = append(allDishes, dish)
 	}
-	return allDishs, nil
+	return allDishes, nil
 }
