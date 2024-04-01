@@ -3,38 +3,47 @@ package usecase
 import "evaeats/user-service/internal/payment/entity"
 
 type CreatePaymentInputDto struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	OrderID       string  `json:"order_id"`
+	Amount        float64 `json:"amount"`
+	PaymentMethod string  `json:"payment_method"`
 }
 
 type CreatePaymentOutputDto struct {
-	ID    uint   `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID            string  `json:"payment_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	OrderID       string  `json:"order_id"`
+	Amount        float64 `json:"amount"`
+	PaymentMethod string  `json:"payment_method"`
 }
 
 type CreatePaymentUseCase struct {
 	PaymentRepository entity.PaymentRepository
 }
 
-func NewCreatePaymentUseCase(PaymentRepository entity.PaymentRepository) *CreatePaymentUseCase {
-	return &CreatePaymentUseCase{PaymentRepository: PaymentRepository}
+func NewCreatePaymentUseCase(paymentRepository entity.PaymentRepository) *CreatePaymentUseCase {
+	return &CreatePaymentUseCase{PaymentRepository: paymentRepository}
 }
 
 func (u *CreatePaymentUseCase) Execute(input CreatePaymentInputDto) (*CreatePaymentOutputDto, error) {
-	Payment := entity.NewPayment(
-		input.Name,
-		input.Email,
+	newPayment, err := entity.NewPaymentTransaction(
+		input.OrderID,
+		input.PaymentMethod,
+		input.Amount,
 	)
-
-	err := u.PaymentRepository.Create(Payment)
 	if err != nil {
 		return nil, err
 	}
 
-	return &CreatePaymentOutputDto{
-		ID:    Payment.ID,
-		Name:  Payment.Name,
-		Email: Payment.Email,
-	}, nil
+	err = u.PaymentRepository.Create(newPayment)
+	if err != nil {
+		return nil, err
+	}
+
+	output := &CreatePaymentOutputDto{
+		ID:            newPayment.ID,
+		OrderID:       newPayment.OrderID,
+		Amount:        newPayment.Amount,
+		PaymentMethod: newPayment.PaymentMethod,
+	}
+
+	return output, nil
 }
