@@ -20,8 +20,8 @@ import (
 	dishcategoryRepo "evaeats/user-service/internal/dishcategory/infra/repository"
 	dishcategoryUsecase "evaeats/user-service/internal/dishcategory/infra/usecase"
 
-	//paymentRepo "evaeats/user-service/internal/payment/infra/repository"
-	//paymentUsecase "evaeats/user-service/internal/payment/infra/usecase"
+	paymentRepo "evaeats/user-service/internal/payment/infra/repository"
+	paymentUsecase "evaeats/user-service/internal/payment/infra/usecase"
 
 	userRepo "evaeats/user-service/internal/user/infra/repository"
 	userUsecase "evaeats/user-service/internal/user/infra/usecase"
@@ -77,7 +77,7 @@ func main() {
 	cheffRepo := cheffRepo.NewCheffRepositoryPostgres(gormDB)
 	dishRepo := dishRepo.NewDishRepositoryPostgres(gormDB)
 	dishCategoryRepo := dishcategoryRepo.NewDishCategoryRepositoryPostgres(gormDB)
-	//paymentRepo := paymentRepo.PaymentRepositoryPostgres(gormDB)
+	paymentRepo := paymentRepo.NewPaymentRepositoryPostgres(gormDB)
 
 	// Create use cases
 	createUserUC := userUsecase.NewCreateUserUseCase(userRepo)
@@ -104,18 +104,18 @@ func main() {
 	updateDishCategoryUC := dishcategoryUsecase.NewUpdateDishCategoryUseCase(dishCategoryRepo)
 	getAllDishCategoriesUC := dishcategoryUsecase.NewGetAllDishCategoriesUseCase(dishCategoryRepo)
 
-	//createPaymentUC := paymentUsecase.NewCreatePaymentUseCase(paymentRepo)
-	// deletePaymentUC := paymentUsecase.NewDeletePaymentUseCase(paymentRepo)
-	// getPaymentByIDUC := paymentUsecase.NewGetPaymentByIDUseCase(paymentRepo)
-	// updatePaymentUC := paymentUsecase.NewUpdatePaymentUseCase(paymentRepo)
-	// getAllPaymentsUC := paymentUsecase.NewGetAllPaymentsUseCase(paymentRepo)
+	createPaymentUC := paymentUsecase.NewCreatePaymentUseCase(paymentRepo)
+	deletePaymentUC := paymentUsecase.NewDeletePaymentUseCase(paymentRepo)
+	getPaymentByIDUC := paymentUsecase.NewGetPaymentByIDUseCase(paymentRepo)
+	updatePaymentUC := paymentUsecase.NewUpdatePaymentUseCase(paymentRepo)
+	getAllPaymentsUC := paymentUsecase.NewGetAllPaymentsUseCase(paymentRepo)
 
 	// Create handlers
 	userHandlers := api.NewUserHandlers(createUserUC, getAllUsersUC, deleteUserUC, getUserByIDUC, updateUserUC)
 	cheffHandlers := api.NewCheffHandlers(createCheffUC, getAllCheffsUC, deleteCheffUC, getCheffByIDUC, updateCheffUC)
 	dishHandlers := api.NewDishHandlers(createDishUC, getAllDishesUC, deleteDishUC, getDishByIDUC, updateDishUC)
 	dishCategoryHandlers := api.NewDishCategoryHandlers(createDishCategoryUC, getAllDishCategoriesUC, deleteDishCategoryUC, getDishCategoryByIDUC, updateDishCategoryUC)
-	//	paymentHandlers := api.NewPaymentHandlers(createPaymentUC)
+	paymentHandlers := api.NewPaymentHandlers(createPaymentUC, getAllPaymentsUC, getPaymentByIDUC, updatePaymentUC, deletePaymentUC)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -125,7 +125,7 @@ func main() {
 	cheffHandlers.SetupRoutes(router)
 	dishHandlers.SetupRoutes(router)
 	dishCategoryHandlers.SetupRoutes(router)
-	//paymentHandlers.SetupRoutes(router)
+	paymentHandlers.SetupRoutes(router)
 
 	// Start the server
 	err = http.ListenAndServe(":8000", router)
