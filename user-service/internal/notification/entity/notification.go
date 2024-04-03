@@ -14,8 +14,6 @@ type NotificationRepository interface {
 	Update(notification *Notification) error
 	DeleteByID(id string) error
 	GetByID(id string) (*Notification, error)
-	GetAllByUserID(userID string) ([]*Notification, error) // Nova função adicionada
-
 }
 
 // Notification representa uma notificação enviada a um usuário.
