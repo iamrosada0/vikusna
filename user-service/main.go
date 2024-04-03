@@ -26,6 +26,8 @@ import (
 	userRepo "evaeats/user-service/internal/user/infra/repository"
 	userUsecase "evaeats/user-service/internal/user/infra/usecase"
 
+	notificationRepo "evaeats/user-service/internal/notification/infra/repository"
+	notificationUsecase "evaeats/user-service/internal/notification/infra/usecase"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -78,8 +80,10 @@ func main() {
 	dishRepo := dishRepo.NewDishRepositoryPostgres(gormDB)
 	dishCategoryRepo := dishcategoryRepo.NewDishCategoryRepositoryPostgres(gormDB)
 	paymentRepo := paymentRepo.NewPaymentRepositoryPostgres(gormDB)
+	notificationRepo := notificationRepo.NewNotificationRepositoryPostgres(gormDB)
 
 	// Create use cases
+
 	createUserUC := userUsecase.NewCreateUserUseCase(userRepo)
 	deleteUserUC := userUsecase.NewDeleteUserUseCase(userRepo)
 	getUserByIDUC := userUsecase.NewGetUserByIDUseCase(userRepo)
@@ -110,12 +114,19 @@ func main() {
 	updatePaymentUC := paymentUsecase.NewUpdatePaymentUseCase(paymentRepo)
 	getAllPaymentsUC := paymentUsecase.NewGetAllPaymentsUseCase(paymentRepo)
 
+	createNotificationUC := notificationUsecase.NewCreateNotificationUseCase(notificationRepo)
+	deleteNotificationUC := notificationUsecase.NewDeleteNotificationUseCase(notificationRepo)
+	getNotificationByIDUC := notificationUsecase.NewGetNotificationsUseCase(notificationRepo)
+	updateNotificationUC := notificationUsecase.NewUpdateNotificationUseCase(notificationRepo)
+
 	// Create handlers
 	userHandlers := api.NewUserHandlers(createUserUC, getAllUsersUC, deleteUserUC, getUserByIDUC, updateUserUC)
 	cheffHandlers := api.NewCheffHandlers(createCheffUC, getAllCheffsUC, deleteCheffUC, getCheffByIDUC, updateCheffUC)
 	dishHandlers := api.NewDishHandlers(createDishUC, getAllDishesUC, deleteDishUC, getDishByIDUC, updateDishUC)
 	dishCategoryHandlers := api.NewDishCategoryHandlers(createDishCategoryUC, getAllDishCategoriesUC, deleteDishCategoryUC, getDishCategoryByIDUC, updateDishCategoryUC)
 	paymentHandlers := api.NewPaymentHandlers(createPaymentUC, getAllPaymentsUC, getPaymentByIDUC, updatePaymentUC, deletePaymentUC)
+
+	notificationHandlers := api.NewNotificationHandlers(createNotificationUC, getNotificationByIDUC, deleteNotificationUC, updateNotificationUC)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -126,6 +137,8 @@ func main() {
 	dishHandlers.SetupRoutes(router)
 	dishCategoryHandlers.SetupRoutes(router)
 	paymentHandlers.SetupRoutes(router)
+
+	notificationHandlers.SetupRoutes(router)
 
 	// Start the server
 	err = http.ListenAndServe(":8000", router)
