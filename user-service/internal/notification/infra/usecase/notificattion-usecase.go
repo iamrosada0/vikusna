@@ -4,35 +4,32 @@ import (
 	"evaeats/user-service/internal/notification/entity"
 )
 
-// Aqui está a definição de uma estrutura de entrada para a operação de exclusão de notificação.
 type DeleteNotificationInputDto struct {
 	ID string `json:"notification_id" valid:"uuid"`
 }
-
-// Aqui está a definição de uma estrutura de entrada para a operação de atualização de notificação.
 type UpdateNotificationInputDto struct {
 	ID      string `json:"notification_id" valid:"uuid"`
 	Message string `json:"message"`
 }
-
-// Aqui está a definição de uma estrutura de saída para as operações de busca, exclusão e atualização de notificações.
 type NotificationOutputDto struct {
 	ID        string `json:"notification_id" valid:"uuid"`
 	UserID    string `json:"user_id"`
 	Message   string `json:"message"`
 	Timestamp int64  `json:"timestamp"`
 }
+
 type CreateNotificationInputDto struct {
 	UserID  string `json:"user_id"`
 	Message string `json:"message"`
 }
 
 type CreateNotificationOutputDto struct {
-	ID        string `json:"notification_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	ID        string `json:"notification_id" valid:"uuid"`
 	UserID    string `json:"user_id"`
 	Message   string `json:"message"`
 	Timestamp int64  `json:"timestamp"`
 }
+
 type CreateNotificationUseCase struct {
 	NotificationRepository entity.NotificationRepository
 }
@@ -41,6 +38,7 @@ func NewCreateNotificationUseCase(notificationRepository entity.NotificationRepo
 	return &CreateNotificationUseCase{NotificationRepository: notificationRepository}
 }
 
+// Método para criar uma nova notificação.
 func (u *CreateNotificationUseCase) Execute(input CreateNotificationInputDto) (*CreateNotificationOutputDto, error) {
 	newNotification, err := entity.NewNotification(input.UserID, input.Message)
 	if err != nil {
@@ -62,17 +60,17 @@ func (u *CreateNotificationUseCase) Execute(input CreateNotificationInputDto) (*
 	return output, nil
 }
 
-// Aqui está a definição do caso de uso para a operação de exclusão de notificação.
+// Caso de uso para excluir uma notificação.
 type DeleteNotificationUseCase struct {
 	NotificationRepository entity.NotificationRepository
 }
 
-// Aqui está a definição do caso de uso para a operação de atualização de notificação.
-type UpdateNotificationUseCase struct {
-	NotificationRepository entity.NotificationRepository
+// Função para criar uma nova instância de DeleteNotificationUseCase.
+func NewDeleteNotificationUseCase(notificationRepository entity.NotificationRepository) *DeleteNotificationUseCase {
+	return &DeleteNotificationUseCase{NotificationRepository: notificationRepository}
 }
 
-// Aqui está a implementação do método Execute para o caso de uso de exclusão de notificação.
+// Método para excluir uma notificação.
 func (u *DeleteNotificationUseCase) Execute(input DeleteNotificationInputDto) error {
 	err := u.NotificationRepository.DeleteByID(input.ID)
 	if err != nil {
@@ -81,7 +79,17 @@ func (u *DeleteNotificationUseCase) Execute(input DeleteNotificationInputDto) er
 	return nil
 }
 
-// Aqui está a implementação do método Execute para o caso de uso de atualização de notificação.
+// Caso de uso para atualizar uma notificação.
+type UpdateNotificationUseCase struct {
+	NotificationRepository entity.NotificationRepository
+}
+
+// Função para criar uma nova instância de UpdateNotificationUseCase.
+func NewUpdateNotificationUseCase(notificationRepository entity.NotificationRepository) *UpdateNotificationUseCase {
+	return &UpdateNotificationUseCase{NotificationRepository: notificationRepository}
+}
+
+// Método para atualizar uma notificação.
 func (u *UpdateNotificationUseCase) Execute(input UpdateNotificationInputDto) error {
 	notification, err := u.NotificationRepository.GetByID(input.ID)
 	if err != nil {
@@ -95,12 +103,17 @@ func (u *UpdateNotificationUseCase) Execute(input UpdateNotificationInputDto) er
 	return nil
 }
 
-// Aqui está a definição do caso de uso para a operação de busca de notificações.
+// Caso de uso para buscar notificações.
 type GetNotificationsUseCase struct {
 	NotificationRepository entity.NotificationRepository
 }
 
-// Aqui está a implementação do método Execute para o caso de uso de busca de notificações.
+// Função para criar uma nova instância de GetNotificationsUseCase.
+func NewGetNotificationsUseCase(notificationRepository entity.NotificationRepository) *GetNotificationsUseCase {
+	return &GetNotificationsUseCase{NotificationRepository: notificationRepository}
+}
+
+// Método para buscar notificações.
 func (u *GetNotificationsUseCase) Execute() ([]*NotificationOutputDto, error) {
 	notifications, err := u.NotificationRepository.FindAll()
 	if err != nil {
