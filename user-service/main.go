@@ -34,7 +34,7 @@ import (
 )
 
 func main() {
-	dbPath := "./db/main.db"
+	dbPath := "./user-service/db/main.db"
 	sqlDB, err := sql.Open("sqlite3", dbPath)
 	if err != nil {
 		panic(err)
@@ -43,7 +43,7 @@ func main() {
 
 	_, err = os.Stat(dbPath)
 	if os.IsNotExist(err) {
-		err = os.MkdirAll("./db", os.ModePerm)
+		err = os.MkdirAll("./user-service/db", os.ModePerm)
 		if err != nil {
 			panic(err)
 		}
