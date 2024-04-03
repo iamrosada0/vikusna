@@ -1,3 +1,3 @@
 server:
-	go run framework/cmd/server/server.go
+	go run user-service/main.go
 
