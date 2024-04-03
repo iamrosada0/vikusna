@@ -30,11 +30,11 @@ func (r *PaymentRepositoryPostgres) Update(Payment *entity.Payment) error {
 	return r.DB.Save(Payment).Error
 }
 
-func (r *PaymentRepositoryPostgres) DeleteByID(id uint) error {
+func (r *PaymentRepositoryPostgres) DeleteByID(id string) error {
 	return r.DB.Where("id = ?", id).Delete(entity.Payment{}).Error
 }
 
-func (r *PaymentRepositoryPostgres) GetByID(id uint) (*entity.Payment, error) {
+func (r *PaymentRepositoryPostgres) GetByID(id string) (*entity.Payment, error) {
 	var Payment entity.Payment
 	if err := r.DB.Where("id = ?", id).First(&Payment).Error; err != nil {
 		return nil, err
