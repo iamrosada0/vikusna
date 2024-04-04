@@ -8,7 +8,7 @@ import (
 
 type OrderItemRepository interface {
 	Create(orderItem *OrderItem) error
-	FindAll() ([]*OrderItem, error)
+	//FindAll() ([]*OrderItem, error)
 	Update(orderItem *OrderItem) error
 	DeleteByID(id string) error
 	GetByID(id string) (*OrderItem, error)
@@ -64,13 +64,13 @@ func (r *InMemoryOrderItemRepository) DeleteByID(id string) error {
 	return nil
 }
 
-func (r *InMemoryOrderItemRepository) FindAll() ([]*OrderItem, error) {
-	var allOrderItems []*OrderItem
-	for _, orderItem := range r.OrderItems {
-		allOrderItems = append(allOrderItems, orderItem)
-	}
-	return allOrderItems, nil
-}
+// func (r *InMemoryOrderItemRepository) FindAll() ([]*OrderItem, error) {
+// 	var allOrderItems []*OrderItem
+// 	for _, orderItem := range r.OrderItems {
+// 		allOrderItems = append(allOrderItems, orderItem)
+// 	}
+// 	return allOrderItems, nil
+// }
 
 func (r *InMemoryOrderItemRepository) Update(orderItem *OrderItem) error {
 	if _, exists := r.OrderItems[orderItem.ID]; !exists {
