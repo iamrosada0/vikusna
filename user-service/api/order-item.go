@@ -8,23 +8,21 @@ import (
 )
 
 type OrderItemHandlers struct {
-	CreateOrderItemUseCase  *usecase.CreateOrderItemUseCase
-	ListOrderItemesUseCase  *usecase.GetAllOrdersUseCase
+	CreateOrderItemUseCase *usecase.CreateOrderItemUseCase
+	// ListOrderItemesUseCase  *usecase.GetAllOrdersUseCase
 	DeleteOrderItemUseCase  *usecase.DeleteOrderItemUseCase
-	GetOrderItemByIDUseCase *usecase.GetOrderByIDUseCase
+	GetOrderItemByIDUseCase *usecase.GetOrderItemUseCase
 	UpdateOrderItemUseCase  *usecase.UpdateOrderItemUseCase
 }
 
 func NewOrderItemHandlers(
 	createOrderItemUseCase *usecase.CreateOrderItemUseCase,
-	listOrderItemesUseCase *usecase.GetAllOrdersUseCase,
 	deleteOrderItemUseCase *usecase.DeleteOrderItemUseCase,
-	getOrderItemByIDUseCase *usecase.GetOrderByIDUseCase,
+	getOrderItemByIDUseCase *usecase.GetOrderItemUseCase,
 	updateOrderItemUseCase *usecase.UpdateOrderItemUseCase,
 ) *OrderItemHandlers {
 	return &OrderItemHandlers{
 		CreateOrderItemUseCase:  createOrderItemUseCase,
-		ListOrderItemesUseCase:  listOrderItemesUseCase,
 		DeleteOrderItemUseCase:  deleteOrderItemUseCase,
 		GetOrderItemByIDUseCase: getOrderItemByIDUseCase,
 		UpdateOrderItemUseCase:  updateOrderItemUseCase,
@@ -34,10 +32,9 @@ func NewOrderItemHandlers(
 func (dh *OrderItemHandlers) SetupRoutes(router *gin.Engine) {
 	api := router.Group("/api")
 	{
-		OrderItemes := api.Group("/OrderItemes")
+		OrderItemes := api.Group("/order-items")
 		{
 			OrderItemes.POST("/", dh.CreateOrderItemHandler)
-			OrderItemes.GET("/", dh.ListOrderItemesHandler)
 			OrderItemes.DELETE("/:id", dh.DeleteOrderItemHandler)
 			OrderItemes.GET("/:id", dh.GetOrderItemByIDHandler)
 			OrderItemes.PUT("/:id", dh.UpdateOrderItemHandler)
@@ -59,14 +56,14 @@ func (dh *OrderItemHandlers) CreateOrderItemHandler(c *gin.Context) {
 	c.JSON(http.StatusCreated, output)
 }
 
-func (dh *OrderItemHandlers) ListOrderItemesHandler(c *gin.Context) {
-	output, err := dh.ListOrderItemesUseCase.Execute()
-	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, output)
-}
+// func (dh *OrderItemHandlers) ListOrderItemesHandler(c *gin.Context) {
+// 	output, err := dh.ListOrderItemesUseCase.Execute()
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	c.JSON(http.StatusOK, output)
+// }
 
 func (dh *OrderItemHandlers) DeleteOrderItemHandler(c *gin.Context) {
 	id := c.Param("id")
@@ -84,7 +81,7 @@ func (dh *OrderItemHandlers) GetOrderItemByIDHandler(c *gin.Context) {
 	id := c.Param("id")
 
 	input := usecase.GetOrderByIDInputDto{ID: id}
-	output, err := dh.GetOrderItemByIDUseCase.Execute(input)
+	output, err := dh.GetOrderItemByIDUseCase.Execute(usecase.GetOrderItemInputDto(input))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
