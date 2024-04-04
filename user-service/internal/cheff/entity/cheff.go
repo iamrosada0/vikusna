@@ -17,6 +17,7 @@ type CheffRepository interface {
 type Cheff struct {
 	ID                  string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	Cheff_image         string `json:"cheff_image"`
+	UserId              string `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	Cheff_name          string `json:"cheff_name"`
 	Phone_number        string `json:"phone_number"`
 	Address             string `json:"address"`
@@ -30,7 +31,7 @@ type Cheff struct {
 
 func NewCheff(
 	cheff_image, cheff_name, phone_number, address, locationId,
-	locationPreference, cookingExperience, specialties, certifications string,
+	locationPreference, cookingExperience, specialties, certifications, userId string,
 ) *Cheff {
 	return &Cheff{
 		ID:                  uuid.New().String(),
@@ -44,6 +45,7 @@ func NewCheff(
 		CookingExperience:   cookingExperience,
 		Specialties:         specialties,
 		Certifications:      certifications,
+		UserId:              userId,
 	}
 }
 

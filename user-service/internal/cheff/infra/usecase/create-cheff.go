@@ -3,9 +3,11 @@ package usecase
 import "evaeats/user-service/internal/cheff/entity"
 
 type CreateCheffInputDto struct {
-	ID                 string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	CheffImage         string `json:"cheff_image"`
-	CheffName          string `json:"cheff_name"`
+	ID         string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	CheffImage string `json:"cheff_image"`
+	CheffName  string `json:"cheff_name"`
+	UserId     string `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+
 	PhoneNumber        string `json:"phone_number"`
 	Address            string `json:"address"`
 	LocationID         string `json:"location"`
@@ -17,9 +19,11 @@ type CreateCheffInputDto struct {
 }
 
 type CreateCheffOutputDto struct {
-	ID                 string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	CheffImage         string `json:"cheff_image"`
-	CheffName          string `json:"cheff_name"`
+	ID         string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	CheffImage string `json:"cheff_image"`
+	CheffName  string `json:"cheff_name"`
+	UserId     string `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+
 	PhoneNumber        string `json:"phone_number"`
 	Address            string `json:"address"`
 	LocationID         string `json:"location"`
@@ -50,6 +54,7 @@ func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOut
 		input.CookingExperience,
 		input.Specialties,
 		input.Certifications,
+		input.UserId,
 	)
 
 	// Add the chef to the repository
@@ -63,6 +68,7 @@ func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOut
 		ID:                 cheff.ID,
 		CheffName:          cheff.Cheff_name,
 		CheffImage:         cheff.Cheff_image,
+		UserId:             cheff.UserId,
 		PhoneNumber:        cheff.Phone_number,
 		Address:            cheff.Address,
 		LocationID:         cheff.LocationID,

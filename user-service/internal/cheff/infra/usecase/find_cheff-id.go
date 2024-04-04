@@ -7,8 +7,10 @@ type GetCheffByIDInputDto struct {
 }
 
 type GetCheffByIDOutputDto struct {
-	ID                 string `json:"id"`
-	Name               string `json:"name"`
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	UserId string `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+
 	CheffImage         string `json:"cheff_image"`
 	PhoneNumber        string `json:"phone_number"`
 	Address            string `json:"address"`
@@ -33,6 +35,7 @@ func (u *GetCheffByIDUseCase) Execute(input GetCheffByIDInputDto) (*GetCheffByID
 	return &GetCheffByIDOutputDto{
 		ID:                 Cheff.ID,
 		Name:               Cheff.Cheff_name,
+		UserId:             Cheff.UserId,
 		CheffImage:         Cheff.Cheff_image,
 		PhoneNumber:        Cheff.Phone_number,
 		Address:            Cheff.Address,
