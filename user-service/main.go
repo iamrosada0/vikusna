@@ -6,8 +6,11 @@ import (
 	cheffEntity "evaeats/user-service/internal/cheff/entity"
 	dishEntity "evaeats/user-service/internal/dish/entity"
 	dishcategoryEntity "evaeats/user-service/internal/dishcategory/entity"
+	notificationEntity "evaeats/user-service/internal/notification/entity"
+	orderEntity_ "evaeats/user-service/internal/order/entity"
 	paymentEntity "evaeats/user-service/internal/payment/entity"
 	userEntity "evaeats/user-service/internal/user/entity"
+
 	"fmt"
 	"net/http"
 
@@ -28,6 +31,9 @@ import (
 
 	notificationRepo "evaeats/user-service/internal/notification/infra/repository"
 	notificationUsecase "evaeats/user-service/internal/notification/infra/usecase"
+
+	orderRepo_ "evaeats/user-service/internal/order/infra/repository"
+	orderUsecase_ "evaeats/user-service/internal/order/infra/usecase"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -70,6 +76,9 @@ func main() {
 		&dishcategoryEntity.DishCategory{},
 		&paymentEntity.Payment{},
 		&userEntity.User{},
+		&notificationEntity.Notification{},
+		&orderEntity_.Order{},
+		&orderEntity_.OrderItem{},
 	)
 	if err != nil {
 		panic(err)
@@ -81,6 +90,9 @@ func main() {
 	dishCategoryRepo := dishcategoryRepo.NewDishCategoryRepositoryPostgres(gormDB)
 	paymentRepo := paymentRepo.NewPaymentRepositoryPostgres(gormDB)
 	notificationRepo := notificationRepo.NewNotificationRepositoryPostgres(gormDB)
+	orderRepo := orderRepo_.NewOrderRepositoryPostgres(gormDB)
+
+	orderItemRepo := orderRepo_.NewOrderItemRepositoryPostgres(gormDB)
 
 	// Create use cases
 
@@ -119,6 +131,17 @@ func main() {
 	getNotificationByIDUC := notificationUsecase.NewGetNotificationsUseCase(notificationRepo)
 	updateNotificationUC := notificationUsecase.NewUpdateNotificationUseCase(notificationRepo)
 
+	createOrderUC := orderUsecase_.NewCreateOrderUseCase(orderRepo)
+	deleteOrderUC := orderUsecase_.NewDeleteOrderUseCase(orderRepo)
+	getOrderByIDUC := orderUsecase_.NewGetOrderByIDUseCase(orderRepo)
+	updateOrderUC := orderUsecase_.NewUpdateOrderUseCase(orderRepo)
+	getAllOrdersUC := orderUsecase_.NewGetAllOrdersUseCase(orderRepo)
+
+	createOrderItemUC := orderUsecase_.NewCreateOrderItemUseCase(orderItemRepo)
+	deleteOrderItemUC := orderUsecase_.NewDeleteOrderItemUseCase(orderItemRepo)
+	getOrderItemByIDUC := orderUsecase_.NewGetOrderItemUseCase(orderItemRepo)
+	updateOrderItemUC := orderUsecase_.NewUpdateOrderItemUseCase(orderItemRepo)
+
 	// Create handlers
 	userHandlers := api.NewUserHandlers(createUserUC, getAllUsersUC, deleteUserUC, getUserByIDUC, updateUserUC)
 	cheffHandlers := api.NewCheffHandlers(createCheffUC, getAllCheffsUC, deleteCheffUC, getCheffByIDUC, updateCheffUC)
@@ -127,6 +150,9 @@ func main() {
 	paymentHandlers := api.NewPaymentHandlers(createPaymentUC, getAllPaymentsUC, getPaymentByIDUC, updatePaymentUC, deletePaymentUC)
 
 	notificationHandlers := api.NewNotificationHandlers(createNotificationUC, getNotificationByIDUC, deleteNotificationUC, updateNotificationUC)
+	orderHandlers := api.NewOrderHandlers(createOrderUC, getAllOrdersUC, deleteOrderUC, getOrderByIDUC, updateOrderUC)
+
+	orderItemHandlers := api.NewOrderItemHandlers(createOrderItemUC, deleteOrderItemUC, getOrderItemByIDUC, updateOrderItemUC)
 
 	// Set up Gin router
 	router := gin.Default()
@@ -139,6 +165,10 @@ func main() {
 	paymentHandlers.SetupRoutes(router)
 
 	notificationHandlers.SetupRoutes(router)
+
+	orderHandlers.SetupRoutes(router)
+
+	orderItemHandlers.SetupRoutes(router)
 
 	// Start the server
 	err = http.ListenAndServe(":8000", router)
