@@ -2,6 +2,7 @@ package entity
 
 import (
 	"errors"
+	cheffEntity "evaeats/user-service/internal/cheff/entity"
 	"time"
 
 	"github.com/google/uuid"
@@ -16,17 +17,18 @@ type UserRepository interface {
 }
 
 type User struct {
-	ID           string    `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
-	UserName     string    `json:"user_name" valid:"notnull"`
-	Email        string    `json:"email" valid:"notnull"`
-	Password     string    `json:"password"`
-	Phone        string    `json:"phone"`
-	FirstName    string    `json:"first_name"`
-	LastName     string    `json:"last_name"`
-	UserType     string    `json:"user_type" validate:"eq=PRO|eq=CLIENT"`
-	ProfileImage string    `json:"profile_image"`
-	CreatedAt    time.Time `json:"created_at" valid:"-"`
-	UpdatedAt    time.Time `json:"updated_at" valid:"-"`
+	ID           string            `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	UserName     string            `json:"user_name" valid:"notnull"`
+	Email        string            `json:"email" valid:"notnull"`
+	Password     string            `json:"password"`
+	Phone        string            `json:"phone"`
+	Cheff        cheffEntity.Cheff `gorm:"foreignKey:user_id"` // Defines the one-to-one association with Chef
+	FirstName    string            `json:"first_name"`
+	LastName     string            `json:"last_name"`
+	UserType     string            `json:"user_type" validate:"eq=PRO|eq=CLIENT"`
+	ProfileImage string            `json:"profile_image"`
+	CreatedAt    time.Time         `json:"created_at" valid:"-"`
+	UpdatedAt    time.Time         `json:"updated_at" valid:"-"`
 }
 
 func NewUser(name, email string) *User {
