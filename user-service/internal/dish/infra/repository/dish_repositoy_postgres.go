@@ -1,7 +1,10 @@
 package repository
 
 import (
+	"errors"
 	"evaeats/user-service/internal/dish/entity"
+
+	cheffEntity "evaeats/user-service/internal/cheff/entity"
 
 	_ "gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -16,6 +19,25 @@ func NewDishRepositoryPostgres(db *gorm.DB) *DishRepositoryPostgres {
 }
 
 func (r *DishRepositoryPostgres) Create(Dish *entity.Dish) error {
+	// Verificar se o chef_id existe na tabela de chefs
+	var chef cheffEntity.Cheff
+	if err := r.DB.Where("id = ?", Dish.ChefID).First(&chef).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("chef not found")
+		}
+		return err
+	}
+
+	// Verificar se o category_id existe na tabela de DishCategory
+	var category entity.DishCategory
+	if err := r.DB.Where("id = ?", Dish.CategoryID).First(&category).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("category not found")
+		}
+		return err
+	}
+
+	// Se ambas as verificações passarem, criar o prato (dish)
 	return r.DB.Create(Dish).Error
 }
 
