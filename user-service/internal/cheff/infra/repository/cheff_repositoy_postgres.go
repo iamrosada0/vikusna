@@ -18,14 +18,26 @@ func NewCheffRepositoryPostgres(db *gorm.DB) *CheffRepositoryPostgres {
 }
 
 func (r *CheffRepositoryPostgres) Create(cheff *entity.Cheff) error {
-	// Check if the user ID exists
+	// Check if the user exists
 	var user userEntity.User
 	err := r.DB.Where("ID = ?", cheff.UserId).First(&user).Error
 	if err != nil {
-		return errors.New("user not extist not found")
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return errors.New("user not found")
+		}
+		return err
 	}
 
-	// User ID exists, create the chef
+	// Check if a chef with the same user ID already exists
+	var existingChef entity.Cheff
+	err = r.DB.Where("user_id = ?", cheff.UserId).First(&existingChef).Error
+	if err == nil {
+		return errors.New("chef with the same user ID already exists")
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
+	}
+
+	// User exists and no chef with the same user ID, create the chef
 	return r.DB.Create(cheff).Error
 }
 
