@@ -17,7 +17,7 @@ type CheffRepository interface {
 type Cheff struct {
 	ID                  string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	Cheff_image         string `json:"cheff_image"`
-	UserId              string `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	UserId              string `json:"user_id" valid:"uuid" gorm:"type:uuid"`
 	Cheff_name          string `json:"cheff_name"`
 	Phone_number        string `json:"phone_number"`
 	Address             string `json:"address"`
