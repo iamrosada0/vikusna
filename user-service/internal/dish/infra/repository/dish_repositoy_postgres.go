@@ -43,7 +43,7 @@ func (r *DishRepositoryPostgres) Create(Dish *entity.Dish) error {
 
 func (r *DishRepositoryPostgres) FindAll() ([]*entity.Dish, error) {
 	var Dishs []*entity.Dish
-	if err := r.DB.Find(&Dishs).Error; err != nil {
+	if err := r.DB.Preload("DishCategory").Find(&Dishs).Error; err != nil {
 		return nil, err
 	}
 	return Dishs, nil
