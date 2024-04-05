@@ -1,9 +1,12 @@
 package usecase
 
-import "evaeats/user-service/internal/cheff/entity"
+import (
+	"errors"
+	"evaeats/user-service/internal/cheff/entity"
+)
 
 type CreateCheffInputDto struct {
-	ID         string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
+	// ID         string `json:"cheff_id" valid:"uuid" gorm:"type:uuid;primary_key"`
 	CheffImage string `json:"cheff_image"`
 	CheffName  string `json:"cheff_name"`
 	UserId     string `json:"user_id" valid:"uuid" gorm:"type:uuid;primary_key"`
@@ -44,6 +47,10 @@ func NewCreateCheffUseCase(cheffRepository entity.CheffRepository) *CreateCheffU
 
 func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOutputDto, error) {
 	// Create a new chef using the input data
+	err := u.validateInput(input)
+	if err != nil {
+		return nil, err
+	}
 	cheff := entity.NewCheff(
 		input.CheffImage,
 		input.CheffName,
@@ -58,7 +65,7 @@ func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOut
 	)
 
 	// Add the chef to the repository
-	err := u.CheffRepository.Create(cheff)
+	err = u.CheffRepository.Create(cheff)
 	if err != nil {
 		return nil, err
 	}
@@ -78,4 +85,16 @@ func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOut
 		Specialties:        cheff.Specialties,
 		Certifications:     cheff.Certifications,
 	}, nil
+}
+
+// Check if any required fields are empty
+func (u *CreateCheffUseCase) validateInput(input CreateCheffInputDto) error {
+	// Check if any required fields are empty
+	if input.CheffImage == "" || input.CheffName == "" || input.UserId == "" ||
+		input.PhoneNumber == "" || input.Address == "" || input.LocationID == "" ||
+		input.RegistrationStatus == "" || input.LocationPreference == "" ||
+		input.CookingExperience == "" || input.Specialties == "" || input.Certifications == "" {
+		return errors.New("required fields are empty")
+	}
+	return nil
 }
