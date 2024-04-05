@@ -35,7 +35,7 @@ func (u *GetDishByIDUseCase) Execute(input GetDishByIDInputDto) (*GetDishByIDOut
 		ChefID:      Dish.ChefID,
 		Name:        Dish.Name,
 		Description: Dish.Description,
-		Dish_image:  Dish.Dish_image,
+		Dish_image:  Dish.DishImage,
 		Price:       Dish.Price,
 		Available:   Dish.Available,
 	}, nil

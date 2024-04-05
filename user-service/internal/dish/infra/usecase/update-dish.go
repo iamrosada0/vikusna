@@ -54,7 +54,7 @@ func (u *UpdateDishUseCase) Execute(input UpdateDishInputDto) (*UpdateDishOutput
 		ChefID:      existingDish.ChefID,
 		Name:        existingDish.Name,
 		Description: existingDish.Description,
-		Dish_image:  existingDish.Dish_image,
+		Dish_image:  existingDish.DishImage,
 		Price:       existingDish.Price,
 		Available:   existingDish.Available,
 	}, nil

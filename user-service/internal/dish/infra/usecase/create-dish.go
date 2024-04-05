@@ -21,6 +21,7 @@ func (u *CreateDishUseCase) Execute(input CreateDishInputDto) (*CreateDishOutput
 		input.Dish_image,
 		input.Price,
 		input.Available,
+		input.CategoryID, // Added category ID to create dish
 	)
 	if err != nil {
 		return nil, err
@@ -38,7 +39,7 @@ func (u *CreateDishUseCase) Execute(input CreateDishInputDto) (*CreateDishOutput
 		ChefID:      newDish.ChefID,
 		Name:        newDish.Name,
 		Description: newDish.Description,
-		Dish_image:  newDish.Dish_image,
+		Dish_image:  newDish.DishImage,
 		Price:       newDish.Price,
 		Available:   newDish.Available,
 	}
@@ -54,6 +55,7 @@ type CreateDishInputDto struct {
 	Dish_image  string  `json:"dish_image"`
 	Price       float64 `json:"price"`
 	Available   bool    `json:"available"`
+	CategoryID  string  `json:"category_id"` // Added category ID
 }
 
 // CreateDishOutputDto defines the output data structure for creating a dish
