@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"evaeats/user-service/internal/dish/entity"
+	"fmt"
 )
 
 type CreateDishUseCase struct {
@@ -11,8 +12,34 @@ type CreateDishUseCase struct {
 func NewCreateDishUseCase(DishRepository entity.DishRepository) *CreateDishUseCase {
 	return &CreateDishUseCase{DishRepository: DishRepository}
 }
+func (input CreateDishInputDto) Validate() error {
+	if input.ChefID == "" {
+		return fmt.Errorf("ChefID cannot be empty")
+	}
+	if input.Name == "" {
+		return fmt.Errorf("Name cannot be empty")
+	}
+	if input.Description == "" {
+		return fmt.Errorf("Description cannot be empty")
+	}
+	if input.Dish_image == "" {
+		return fmt.Errorf("Dish_image cannot be empty")
+	}
+	if input.Price <= 0 {
+		return fmt.Errorf("Price must be greater than zero")
+	}
+	// Add validation for CategoryID if required
+	if input.CategoryID == "" {
+		return fmt.Errorf("CategoryID cannot be empty")
+	}
+	return nil
+}
 
 func (u *CreateDishUseCase) Execute(input CreateDishInputDto) (*CreateDishOutputDto, error) {
+	if err := input.Validate(); err != nil {
+		return nil, err
+	}
+
 	// Create a new Dish entity using input data
 	newDish, err := entity.NewDish(
 		input.ChefID,

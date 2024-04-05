@@ -37,7 +37,15 @@ func (r *DishRepositoryPostgres) Create(Dish *entity.Dish) error {
 		return err
 	}
 
-	// Se ambas as verificações passarem, criar o prato (dish)
+	// Verificar se já existe um prato com o mesmo nome e descrição para o chef
+	var existingDish entity.Dish
+	if err := r.DB.Where("chef_id = ? AND name = ? AND description = ?", Dish.ChefID, Dish.Name, Dish.Description).First(&existingDish).Error; err == nil {
+		return errors.New("a dish with the same name and description already exists for this chef")
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+		return err
+	}
+
+	// Se todas as verificações passarem, criar o prato (dish)
 	return r.DB.Create(Dish).Error
 }
 
