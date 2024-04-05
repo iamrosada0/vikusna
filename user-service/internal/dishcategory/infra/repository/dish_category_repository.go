@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"evaeats/user-service/internal/dish/entity"
 
 	"gorm.io/gorm"
@@ -15,7 +16,20 @@ func NewDishCategoryRepositoryPostgres(db *gorm.DB) *DishCategoryRepositoryPostg
 }
 
 func (r *DishCategoryRepositoryPostgres) Create(category *entity.DishCategory) error {
-	return r.DB.Create(category).Error
+	// Verifica se já existe uma categoria com o mesmo nome
+	var existingCategory entity.DishCategory
+	result := r.DB.Where("name = ?", category.Name).First(&existingCategory)
+	if result.Error == nil {
+		// Categoria com o mesmo nome já existe, retornar erro com o nome existente
+		return errors.New("categoria com o nome '" + existingCategory.Name + "' já existe")
+	}
+
+	// Cria a categoria se não houver erro de consulta
+	if err := r.DB.Create(category).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (r *DishCategoryRepositoryPostgres) FindAll() ([]*entity.DishCategory, error) {
