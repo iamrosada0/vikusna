@@ -83,7 +83,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
+	// err = gormDB.Model(&cheffEntity.Cheff{}).AddForeignKey("user_id", "users(id)", "CASCADE", "CASCADE")
+	// if err != nil {
+	// 	panic(err)
+	// }
 	userRepo := userRepo.NewUserRepositoryPostgres(gormDB)
 	cheffRepo := cheffRepo.NewCheffRepositoryPostgres(gormDB)
 	dishRepo := dishRepo.NewDishRepositoryPostgres(gormDB)

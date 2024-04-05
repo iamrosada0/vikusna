@@ -1,7 +1,9 @@
 package repository
 
 import (
+	"errors"
 	"evaeats/user-service/internal/cheff/entity"
+	userEntity "evaeats/user-service/internal/user/entity"
 
 	_ "gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -16,6 +18,14 @@ func NewCheffRepositoryPostgres(db *gorm.DB) *CheffRepositoryPostgres {
 }
 
 func (r *CheffRepositoryPostgres) Create(cheff *entity.Cheff) error {
+	// Check if the user ID exists
+	var user userEntity.User
+	err := r.DB.Where("ID = ?", cheff.UserId).First(&user).Error
+	if err != nil {
+		return errors.New("user not extist not found")
+	}
+
+	// User ID exists, create the chef
 	return r.DB.Create(cheff).Error
 }
 
