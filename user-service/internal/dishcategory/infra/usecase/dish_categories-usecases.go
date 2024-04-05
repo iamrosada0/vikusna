@@ -8,30 +8,35 @@ type CreateDishCategoryUseCase struct {
 	DishCategoryRepository entity.DishCategoryRepository
 }
 
+type CreateDishCategoryInputDto struct {
+	Names []string `json:"names"`
+}
+
 func NewCreateDishCategoryUseCase(DishCategoryRepository entity.DishCategoryRepository) *CreateDishCategoryUseCase {
 	return &CreateDishCategoryUseCase{DishCategoryRepository: DishCategoryRepository}
 }
 
-func (u *CreateDishCategoryUseCase) Execute(input CreateDishCategoryInputDto) (*CreateDishCategoryOutputDto, error) {
-	// Create a new DishCategory entity using input data
-	newCategory, err := entity.NewDishCategory(input.Name)
-	if err != nil {
-		return nil, err
+func (u *CreateDishCategoryUseCase) Execute(input CreateDishCategoryInputDto) ([]*CreateDishCategoryOutputDto, error) {
+	var outputs []*CreateDishCategoryOutputDto
+
+	for _, name := range input.Names {
+		newCategory, err := entity.NewDishCategory(name)
+		if err != nil {
+			return nil, err
+		}
+		err = u.DishCategoryRepository.Create(newCategory)
+		if err != nil {
+			return nil, err
+		}
+		output := &CreateDishCategoryOutputDto{
+			ID:   newCategory.ID,
+			Name: newCategory.Name,
+		}
+
+		outputs = append(outputs, output)
 	}
 
-	// Call DishCategoryRepository to create the DishCategory
-	err = u.DishCategoryRepository.Create(newCategory)
-	if err != nil {
-		return nil, err
-	}
-
-	// Construct output DTO using created DishCategory
-	output := &CreateDishCategoryOutputDto{
-		ID:   newCategory.ID,
-		Name: newCategory.Name,
-	}
-
-	return output, nil
+	return outputs, nil
 }
 
 type DeleteDishCategoryUseCase struct {
@@ -137,10 +142,6 @@ func (u *GetAllDishCategoriesUseCase) Execute() ([]*GetAllDishCategoriesOutputDt
 }
 
 // Define input and output DTOs for the use cases
-
-type CreateDishCategoryInputDto struct {
-	Name string `json:"name"`
-}
 
 type CreateDishCategoryOutputDto struct {
 	ID   string `json:"category_id" valid:"uuid" gorm:"type:uuid;primary_key"`
