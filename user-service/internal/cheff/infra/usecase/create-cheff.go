@@ -3,6 +3,7 @@ package usecase
 import (
 	"errors"
 	"evaeats/user-service/internal/cheff/entity"
+	"fmt"
 )
 
 type CreateCheffInputDto struct {
@@ -90,10 +91,10 @@ func (u *CreateCheffUseCase) Execute(input CreateCheffInputDto) (*CreateCheffOut
 // Check if any required fields are empty
 func (u *CreateCheffUseCase) validateInput(input CreateCheffInputDto) error {
 	// Check if any required fields are empty
+	fmt.Println(input)
 	if input.CheffImage == "" || input.CheffName == "" || input.UserId == "" ||
 		input.PhoneNumber == "" || input.Address == "" || input.LocationID == "" ||
-		input.RegistrationStatus == "" || input.LocationPreference == "" ||
-		input.CookingExperience == "" || input.Specialties == "" || input.Certifications == "" {
+		input.LocationPreference == "" || input.CookingExperience == "" || input.Specialties == "" || input.Certifications == "" {
 		return errors.New("required fields are empty")
 	}
 	return nil
