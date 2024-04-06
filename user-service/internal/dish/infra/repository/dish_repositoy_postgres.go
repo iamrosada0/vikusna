@@ -72,3 +72,17 @@ func (r *DishRepositoryPostgres) GetByID(id string) (*entity.Dish, error) {
 	}
 	return &Dish, nil
 }
+
+func (r *DishRepositoryPostgres) FindByCategoryName(categoryName string) ([]*entity.Dish, error) {
+	var dishesInCategory []*entity.Dish
+
+	// Query dishes where category name matches
+	if err := r.DB.
+		Joins("JOIN dish_categories ON dish_categories.id = dishes.category_id").
+		Where("dish_categories.name = ?", categoryName).
+		Find(&dishesInCategory).Error; err != nil {
+		return nil, err
+	}
+
+	return dishesInCategory, nil
+}
