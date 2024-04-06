@@ -12,6 +12,8 @@ type DishRepository interface {
 	Update(Dish *Dish) error
 	DeleteByID(id string) error
 	GetByID(id string) (*Dish, error)
+	FindByCategoryName(categoryName string) ([]*Dish, error) // Nova função adicionada
+
 }
 
 type Dish struct {
