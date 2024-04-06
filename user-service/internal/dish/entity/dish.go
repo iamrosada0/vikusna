@@ -101,3 +101,13 @@ func (r *InMemoryDishRepository) GetByID(id string) (*Dish, error) {
 	}
 	return dish, nil
 }
+
+func (r *InMemoryDishRepository) FindByCategoryName(categoryName string) ([]*Dish, error) {
+	var dishesInCategory []*Dish
+	for _, dish := range r.Dishes {
+		if dish.DishCategory.Name == categoryName {
+			dishesInCategory = append(dishesInCategory, dish)
+		}
+	}
+	return dishesInCategory, nil
+}
