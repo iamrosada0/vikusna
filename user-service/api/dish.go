@@ -8,11 +8,13 @@ import (
 )
 
 type DishHandlers struct {
-	CreateDishUseCase  *usecase.CreateDishUseCase
-	ListDishesUseCase  *usecase.GetAllDishsUseCase
-	DeleteDishUseCase  *usecase.DeleteDishUseCase
-	GetDishByIDUseCase *usecase.GetDishByIDUseCase
-	UpdateDishUseCase  *usecase.UpdateDishUseCase
+	CreateDishUseCase               *usecase.CreateDishUseCase
+	ListDishesUseCase               *usecase.GetAllDishsUseCase
+	DeleteDishUseCase               *usecase.DeleteDishUseCase
+	GetDishByIDUseCase              *usecase.GetDishByIDUseCase
+	UpdateDishUseCase               *usecase.UpdateDishUseCase
+	FindDishesByCategoryNameUseCase *usecase.FindDishesByCategoryNameUseCase // Add this line
+
 }
 
 func NewDishHandlers(
@@ -21,13 +23,17 @@ func NewDishHandlers(
 	deleteDishUseCase *usecase.DeleteDishUseCase,
 	getDishByIDUseCase *usecase.GetDishByIDUseCase,
 	updateDishUseCase *usecase.UpdateDishUseCase,
+	findDishesByCategoryNameUseCase *usecase.FindDishesByCategoryNameUseCase, // Add this parameter
+
 ) *DishHandlers {
 	return &DishHandlers{
-		CreateDishUseCase:  createDishUseCase,
-		ListDishesUseCase:  listDishesUseCase,
-		DeleteDishUseCase:  deleteDishUseCase,
-		GetDishByIDUseCase: getDishByIDUseCase,
-		UpdateDishUseCase:  updateDishUseCase,
+		CreateDishUseCase:               createDishUseCase,
+		ListDishesUseCase:               listDishesUseCase,
+		DeleteDishUseCase:               deleteDishUseCase,
+		GetDishByIDUseCase:              getDishByIDUseCase,
+		UpdateDishUseCase:               updateDishUseCase,
+		FindDishesByCategoryNameUseCase: findDishesByCategoryNameUseCase, // Add this line
+
 	}
 }
 
@@ -41,6 +47,8 @@ func (dh *DishHandlers) SetupRoutes(router *gin.Engine) {
 			dishes.DELETE("/:id", dh.DeleteDishHandler)
 			dishes.GET("/:id", dh.GetDishByIDHandler)
 			dishes.PUT("/:id", dh.UpdateDishHandler)
+			// Add the new route for finding dishes by category name
+			dishes.POST("/find-by-category", dh.FindDishesByCategoryNameHandler)
 		}
 	}
 }
@@ -106,5 +114,21 @@ func (dh *DishHandlers) UpdateDishHandler(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
+	c.JSON(http.StatusOK, output)
+}
+
+func (dh *DishHandlers) FindDishesByCategoryNameHandler(c *gin.Context) {
+	var input usecase.FindDishesByCategoryNameInputDto
+	if err := c.ShouldBindJSON(&input); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	output, err := dh.FindDishesByCategoryNameUseCase.Execute(input)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
 	c.JSON(http.StatusOK, output)
 }
