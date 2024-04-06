@@ -116,6 +116,7 @@ func main() {
 	getDishByIDUC := dishUsecase.NewGetDishByIDUseCase(dishRepo)
 	updateDishUC := dishUsecase.NewUpdateDishUseCase(dishRepo)
 	getAllDishesUC := dishUsecase.NewGetAllDishsUseCase(dishRepo)
+	findDishesByCategoryNameUC := dishUsecase.NewFindDishesByCategoryNameUseCase(dishRepo) // Add this line
 
 	createDishCategoryUC := dishcategoryUsecase.NewCreateDishCategoryUseCase(dishCategoryRepo)
 	deleteDishCategoryUC := dishcategoryUsecase.NewDeleteDishCategoryUseCase(dishCategoryRepo)
@@ -148,7 +149,7 @@ func main() {
 	// Create handlers
 	userHandlers := api.NewUserHandlers(createUserUC, getAllUsersUC, deleteUserUC, getUserByIDUC, updateUserUC)
 	cheffHandlers := api.NewCheffHandlers(createCheffUC, getAllCheffsUC, deleteCheffUC, getCheffByIDUC, updateCheffUC)
-	dishHandlers := api.NewDishHandlers(createDishUC, getAllDishesUC, deleteDishUC, getDishByIDUC, updateDishUC)
+	dishHandlers := api.NewDishHandlers(createDishUC, getAllDishesUC, deleteDishUC, getDishByIDUC, updateDishUC, findDishesByCategoryNameUC)
 	dishCategoryHandlers := api.NewDishCategoryHandlers(createDishCategoryUC, getAllDishCategoriesUC, deleteDishCategoryUC, getDishCategoryByIDUC, updateDishCategoryUC)
 	paymentHandlers := api.NewPaymentHandlers(createPaymentUC, getAllPaymentsUC, getPaymentByIDUC, updatePaymentUC, deletePaymentUC)
 
